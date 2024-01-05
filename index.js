@@ -1,3 +1,4 @@
+const fs = require('fs')
 const http = require('http')
 const url = require('url')
 
@@ -10,10 +11,17 @@ const server = http.createServer((req, res) => {
         res.end('This is the PRODUCT')
     }
     else {
-        res.writeHead(404, {
-            'Content-type': 'text/html', 'my-own-header': 'hello-world'
+        fs.readFile('pnf.html', (err, data) => {
+            if(err) {
+                {
+                    res.writeHead(500, {'Content-Type': 'text/plain'});
+                    res.end('Erro interno do servidor');
+                    return;
+                }
+            }
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(data);
         })
-        res.end('<h1>Page not found!</h1>')
     }
 })
 
