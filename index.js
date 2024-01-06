@@ -5,10 +5,18 @@ const url = require('url')
 const server = http.createServer((req, res) => {
     const pathName = req.url
 
-    if(pathName === '/overview') {
+    if(pathName === '/overview' || pathName === '/') {
         res.end('This is the OVERVIEW')
     } else if(pathName === '/product') {
         res.end('This is the PRODUCT')
+    }
+    else if(pathName === '/api') {
+
+        fs.readFile('./dev-data/data.json', 'utf-8')
+
+
+
+        res.end('This is the API')
     }
     else {
         fs.readFile('pnf.html', (err, data) => {
@@ -19,7 +27,7 @@ const server = http.createServer((req, res) => {
                     return;
                 }
             }
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.writeHead(200, {'Content-Type': 'text/html', myOwnHeader: 'Hello World'});
             res.end(data);
         })
     }
